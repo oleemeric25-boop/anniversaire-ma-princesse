@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyeux Anniversaire Princesse Kady 🌹</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: linear-gradient(135deg, #1a0010 0%, #3d0028 40%, #1a0010 100%);
+  min-height: 100vh; font-family: 'Lato', sans-serif;
+  color: #f5e6ea; overflow-x: hidden;
+}
+.petals-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.petal { position: absolute; background: radial-gradient(ellipse, #ff6b9d, #e91e63); border-radius: 50% 0 50% 0; animation: fall linear infinite; }
+@keyframes fall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 0.7; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+canvas#fireworks { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+.container { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 60px 24px 80px; }
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+.hearts-row { font-size: 22px; letter-spacing: 8px; margin-bottom: 16px; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.main-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 6vw, 50px); font-weight: 700; color: #ffb3cc; text-shadow: 0 0 30px rgba(255,100,150,0.4); line-height: 1.2; margin-bottom: 8px; }
+.subtitle { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(14px, 3vw, 18px); color: #f090aa; letter-spacing: 2px; }
+.divider { display: flex; align-items: center; gap: 12px; margin: 32px auto; max-width: 320px; }
+.divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, #e91e63, transparent); }
+
+/* AFFICHE */
+.poster-wrap { display: flex; justify-content: center; margin-bottom: 48px; }
+.poster-frame { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 0 40px rgba(233,30,99,0.35), 0 0 80px rgba(233,30,99,0.15); border: 2px solid rgba(255,100,150,0.4); max-width: 380px; width: 100%; animation: glowPulse 3s ease-in-out infinite; }
+@keyframes glowPulse { 0%,100% { box-shadow: 0 0 40px rgba(233,30,99,0.35), 0 0 80px rgba(233,30,99,0.15); } 50% { box-shadow: 0 0 60px rgba(233,30,99,0.55), 0 0 120px rgba(233,30,99,0.25); } }
+.poster-frame img { width: 100%; display: block; }
+.poster-ribbon { position: absolute; top: 14px; left: -30px; background: linear-gradient(135deg, #c2185b, #e91e63); color: white; font-size: 12px; font-weight: 500; padding: 6px 48px; transform: rotate(-45deg); letter-spacing: 1px; }
+.poster-placeholder { padding: 60px 24px; text-align: center; color: #ff6b9d; font-size: 40px; }
+.poster-placeholder p { font-size: 16px; color: #ffb3cc; margin-top: 8px; }
+
+/* LETTRE */
+.letter-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,100,150,0.2); border-radius: 20px; padding: 40px 36px; position: relative; overflow: hidden; }
+.letter-card::before { content: '\275D'; position: absolute; top: 16px; left: 24px; font-family: 'Playfair Display', serif; font-size: 80px; color: rgba(233,30,99,0.12); line-height: 1; }
+.letter-salutation { font-family: 'Playfair Display', serif; font-size: clamp(18px, 4vw, 24px); color: #ffb3cc; margin-bottom: 24px; font-weight: 700; overflow: hidden; white-space: nowrap; border-right: 2px solid #e91e63; width: 0; }
+.letter-salutation.typing { animation: typing 2.2s steps(30, end) forwards, blink 0.8s step-end 3; }
+@keyframes typing { from { width: 0; } to { width: 100%; } }
+@keyframes blink { 0%,100%{border-color:#e91e63} 50%{border-color:transparent} }
+.letter-body p { font-size: clamp(14px, 2.5vw, 16px); line-height: 1.9; color: #f0d0da; margin-bottom: 18px; font-weight: 300; }
+.letter-body p strong { color: #ff6b9d; font-weight: 400; }
+.letter-signature { margin-top: 32px; text-align: right; font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(15px, 3vw, 18px); color: #ffb3cc; }
+
+.birthday-banner { text-align: center; margin: 48px 0 0; padding: 28px 24px; background: linear-gradient(135deg, rgba(194,24,91,0.25), rgba(136,14,79,0.25)); border-radius: 16px; border: 1px solid rgba(233,30,99,0.3); }
+.birthday-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(20px, 5vw, 32px); color: #ffb3cc; margin-bottom: 4px; }
+.birthday-banner p { font-size: 14px; color: #f090aa; letter-spacing: 1px; }
+
+.actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 40px 0 0; }
+.btn { padding: 14px 28px; border-radius: 50px; border: none; cursor: pointer; font-size: 15px; font-weight: 500; transition: transform 0.2s; display: flex; align-items: center; gap: 8px; }
+.btn:hover { transform: scale(1.05); }
+.btn:active { transform: scale(0.97); }
+.btn-fireworks { background: linear-gradient(135deg, #c2185b, #e91e63); color: white; box-shadow: 0 4px 20px rgba(233,30,99,0.4); }
+.btn-music { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,100,150,0.4); color: #ffb3cc; }
+.btn-music.playing { background: linear-gradient(135deg, #880e4f, #c2185b); color: white; border-color: transparent; }
+.music-note { display: inline-block; }
+.music-note.spin { animation: noteSpin 1s linear infinite; }
+@keyframes noteSpin { to { transform: rotate(360deg); } }
+.footer-hearts { text-align: center; margin-top: 40px; font-size: 24px; letter-spacing: 12px; opacity: 0.6; }
+</style>
+</head>
+<body>
+
+<div class="petals-bg" id="petals"></div>
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+
+  <div class="fade-in" style="text-align:center; margin-bottom:48px;">
+    <div class="hearts-row">&#x1F495; &#x1F339; &#x1F495;</div>
+    <h1 class="main-title">Joyeux Anniversaire<br>Princesse Kady</h1>
+    <p class="subtitle">22 ans d'une femme extraordinaire</p>
+  </div>
+
+  <div class="divider fade-in">
+    <div class="divider-line"></div>
+    <span style="color:#e91e63;font-size:18px;">&#x1F339;</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- AFFICHE : remplace "affiche.png" par le nom exact de ton image uploadée sur GitHub -->
+  <div class="poster-wrap fade-in">
+    <div class="poster-frame">
+      <div class="poster-ribbon">&#x2728; Surprise &#x2728;</div>
+      <img src="affiche.png" alt="Affiche anniversaire Princesse Kady" id="posterImg">
+      <div class="poster-placeholder" id="posterFallback" style="display:none;">
+        &#x1F451;
+        <p>Princesse Kady</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider fade-in">
+    <div class="divider-line"></div>
+    <span style="color:#e91e63;font-size:18px;">&#x2764;&#xFE0F;</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="letter-card fade-in">
+    <div class="letter-salutation" id="tw">&#xC0; ma princesse &#x2764;&#xFE0F;</div>
+    <div class="letter-body" id="letter-body" style="opacity:0; transition: opacity 1s ease 0.5s;">
+      <p>Aujourd'hui, le ciel c&#xE9;l&#xE8;bre une &#xE9;toile de plus, et moi je c&#xE9;l&#xE8;bre <strong>la femme extraordinaire que tu es</strong>.</p>
+      <p>Tu es bien plus qu'une simple beaut&#xE9;. Chaque jour, <strong>ton intelligence m'impressionne</strong>, ta douceur me rassure et ton sourire illumine mon monde.</p>
+      <p>Quand je plonge mon regard dans tes magnifiques yeux marron, j'y vois la tendresse, la force et la sinc&#xE9;rit&#xE9; qui font de toi une personne unique. Tes belles joues, ton teint &#xE9;clatant et l'&#xE9;l&#xE9;gance naturelle qui se d&#xE9;gage de toi attirent le regard, mais ce sont surtout <strong>tes valeurs, ton c&#x153;ur et ta fa&#xE7;on d'&#xEA;tre</strong> qui me font t'aimer davantage chaque jour.</p>
+      <p>Tu es cette femme rare qui allie <strong>beaut&#xE9; et intelligence, gr&#xE2;ce et caract&#xE8;re</strong>. Ta pr&#xE9;sence apporte de la lumi&#xE8;re dans mes journ&#xE9;es et du bonheur dans mon c&#x153;ur.</p>
+      <p>En ce jour sp&#xE9;cial, je te souhaite une ann&#xE9;e remplie de <strong>joie, de succ&#xE8;s, de sant&#xE9; et d'amour</strong>. Que tous tes r&#xEA;ves les plus pr&#xE9;cieux deviennent r&#xE9;alit&#xE9;, car tu m&#xE9;rites le meilleur que la vie puisse offrir.</p>
+      <p>Merci d'&#xEA;tre cette personne exceptionnelle qui rend mon monde plus beau.</p>
+    </div>
+    <div class="letter-signature">
+      Joyeux anniversaire, ma princesse.<br><br>
+      Je t'aime aujourd'hui, demain et pour tous les jours qui suivront. &#x2764;&#xFE0F;<br>
+      <span style="color:#e91e63;font-size:1.1em;">&#x2014; Ton amoureux, Emeric</span>
+    </div>
+  </div>
+
+  <div class="birthday-banner fade-in" style="margin-top:48px;">
+    <h2>&#x1F382; 03 Juin 2026 &#x1F382;</h2>
+    <p>22&#xE8;me anniversaire &bull; Une journ&#xE9;e grav&#xE9;e dans nos c&#x153;urs</p>
+  </div>
+
+  <div class="actions fade-in">
+    <button class="btn btn-fireworks" onclick="launchFireworks()">
+      &#x1F386; Lancer les feux d'artifice
+    </button>
+    <button class="btn btn-music" id="musicBtn" onclick="toggleMusic()">
+      <span class="music-note" id="musicNote">&#x1F3B5;</span>
+      <span id="musicLabel">Jouer la musique</span>
+    </button>
+  </div>
+
+  <div class="footer-hearts fade-in">&#x2764;&#xFE0F; &#x1F339; &#x1F495; &#x1F339; &#x2764;&#xFE0F;</div>
+</div>
+
+<script>
+// PHOTO fallback propre
+var img = document.getElementById('posterImg');
+img.onerror = function() {
+  this.style.display = 'none';
+  document.getElementById('posterFallback').style.display = 'block';
+};
+
+// PETALES
+var bg = document.getElementById('petals');
+for (var i = 0; i < 22; i++) {
+  var p = document.createElement('div');
+  p.className = 'petal';
+  p.style.left = Math.random() * 100 + '%';
+  p.style.animationDuration = (6 + Math.random() * 8) + 's';
+  p.style.animationDelay = (Math.random() * 10) + 's';
+  p.style.width = (8 + Math.random() * 8) + 'px';
+  p.style.height = (10 + Math.random() * 10) + 'px';
+  p.style.opacity = 0.3 + Math.random() * 0.5;
+  bg.appendChild(p);
+}
+
+// FADE IN
+var faders = document.querySelectorAll('.fade-in');
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e, i) {
+    if (e.isIntersecting) {
+      setTimeout(function() { e.target.classList.add('visible'); }, i * 120);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+faders.forEach(function(f) { obs.observe(f); });
+
+// TYPEWRITER
+var tw = document.getElementById('tw');
+var letterBody = document.getElementById('letter-body');
+tw.textContent = 'A ma princesse';
+var twObs = new IntersectionObserver(function(entries) {
+  if (entries[0].isIntersecting) {
+    tw.classList.add('typing');
+    tw.addEventListener('animationend', function() {
+      tw.style.borderRight = 'none';
+      letterBody.style.opacity = '1';
+    }, { once: true });
+    twObs.unobserve(tw);
+  }
+}, { threshold: 0.3 });
+twObs.observe(tw);
+
+// FEUX D'ARTIFICE
+var canvas = document.getElementById('fireworks');
+var ctx = canvas.getContext('2d');
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+var particles = [];
+function randomColor() {
+  var c = ['#ff6b9d','#ffb3cc','#e91e63','#ff4081','#ffd700','#ffffff','#ff69b4','#c084fc'];
+  return c[Math.floor(Math.random() * c.length)];
+}
+function explode(x, y) {
+  for (var i = 0; i < 80; i++) {
+    var angle = (Math.PI * 2 / 80) * i;
+    var speed = 2 + Math.random() * 5;
+    particles.push({ x: x, y: y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed, alpha: 1, color: randomColor(), radius: 2 + Math.random()*2, decay: 0.012 + Math.random()*0.008 });
+  }
+}
+function animateFireworks() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(function(p) {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.07; p.alpha -= p.decay;
+    ctx.save(); ctx.globalAlpha = Math.max(0, p.alpha);
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+    ctx.fillStyle = p.color; ctx.fill(); ctx.restore();
+  });
+  particles = particles.filter(function(p) { return p.alpha > 0; });
+  if (particles.length > 0) requestAnimationFrame(animateFireworks);
+}
+function launchFireworks() {
+  var count = 0;
+  function burst() {
+    explode(Math.random() * canvas.width, Math.random() * canvas.height * 0.6);
+    if (++count < 12) setTimeout(burst, 300);
+  }
+  burst(); animateFireworks();
+}
+
+// MUSIQUE
+var audioCtx = null, musicPlaying = false, musicNodes = [], musicInterval = null;
+var melody = [261.63,293.66,329.63,349.23,392,440,493.88,523.25,493.88,440,392,349.23,329.63,293.66,261.63];
+function playNote(freq, startTime, dur) {
+  var osc = audioCtx.createOscillator();
+  var gain = audioCtx.createGain();
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.type = 'sine'; osc.frequency.setValueAtTime(freq, startTime);
+  gain.gain.setValueAtTime(0, startTime);
+  gain.gain.linearRampToValueAtTime(0.18, startTime + 0.05);
+  gain.gain.linearRampToValueAtTime(0, startTime + dur - 0.05);
+  osc.start(startTime); osc.stop(startTime + dur);
+  musicNodes.push(osc);
+}
+function playMelody() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  var t = audioCtx.currentTime;
+  melody.forEach(function(f) { playNote(f, t, 0.5); t += 0.52; });
+  return melody.length * 0.52;
+}
+function toggleMusic() {
+  var btn = document.getElementById('musicBtn');
+  var label = document.getElementById('musicLabel');
+  var note = document.getElementById('musicNote');
+  if (!musicPlaying) {
+    musicPlaying = true;
+    btn.classList.add('playing'); label.textContent = 'Pause la musique'; note.classList.add('spin');
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var dur = playMelody();
+    musicInterval = setInterval(playMelody, dur * 1000 + 300);
+  } else {
+    musicPlaying = false;
+    btn.classList.remove('playing'); label.textContent = 'Jouer la musique'; note.classList.remove('spin');
+    clearInterval(musicInterval);
+    musicNodes.forEach(function(n) { try { n.stop(); } catch(e){} });
+    musicNodes = [];
+  }
+}
+</script>
+</body>
+</html>
